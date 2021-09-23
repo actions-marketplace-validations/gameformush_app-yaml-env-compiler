@@ -1,4 +1,4 @@
-name: 'GAE environment variable compiler'
+name: 'GCP App engine app.yaml environment variable compiler'
 description: 'Compiles and swaps environment variables in app.yaml with the minimal effort'
 
 inputs:
