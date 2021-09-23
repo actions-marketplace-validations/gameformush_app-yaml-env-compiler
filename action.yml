@@ -1,5 +1,12 @@
 name: 'GAE environment variable compiler'
 description: 'Compiles and swaps environment variables in app.yaml with the minimal effort'
+
+inputs:
+  path:
+    description: 'path to app.yaml'
+    required: false
+    default: 'app.yaml'
+
 branding:
   icon: 'cloud'
   color: 'blue'

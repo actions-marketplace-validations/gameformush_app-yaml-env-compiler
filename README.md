@@ -5,6 +5,9 @@
 2. If you don't like the idea to push secret environment variables app.yaml to GitHub.
 3. If you don't like the idea to store the environment variables in a datastore.
 
+### Inputs
+
+* **path** - full path to app.yaml file
 
 ### Action swaps environment variables in app.yaml with the minimal effort
 
@@ -22,8 +25,6 @@
             MY_ENV_VAR1: ${{ secrets.MY_ENV_VAR1 }}
             MY_ENV_VAR2: ${{ secrets.MY_ENV_VAR2 }}  
          
-`Note: app.yaml file should be in the root project directory`
-
 
 Full example with deployment to Google App Engine:     
 
@@ -34,6 +35,8 @@ Full example with deployment to Google App Engine:
     steps:
         - uses: actions/checkout@v1
         - uses: ikuanyshbekov/app-yaml-env-compiler@v1.0
+          with:
+            path: "./service/api/app.yaml"
           env:
             MY_ENV_VAR1: ${{ secrets.MY_ENV_VAR1 }}
             MY_ENV_VAR2: ${{ secrets.MY_ENV_VAR2 }}              

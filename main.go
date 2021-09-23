@@ -8,13 +8,24 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/kelseyhightower/envconfig"
 	"gopkg.in/yaml.v2"
 )
 
+type Input struct {
+	Path string `envconfig:"PATH" required:"true"`
+}
+
 func main() {
 	fmt.Println("Ready to compile ...")
-	
-	filename, _ := filepath.Abs("app.yaml")
+
+	cfg := Input{}
+	if err := envconfig.Process("input", cfg); err != nil {
+		fmt.Printf("process env var: %s", err)
+		os.Exit(1)
+	}
+
+	filename, _ := filepath.Abs(cfg.Path)
 	yamlFile, err := ioutil.ReadFile(filename)
 	if err != nil {
 		panic(err)
@@ -25,8 +36,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	
-	fmt.Println(fmt.Sprintf("Env variables will be replaced: %v",mapResult["env_variables"]))
+
+	fmt.Println(fmt.Sprintf("Env variables will be replaced: %v", mapResult["env_variables"]))
 
 	for k, any := range mapResult {
 		if k == "env_variables" {
@@ -52,12 +63,12 @@ func main() {
 			}
 		}
 	}
-	
-	fmt.Println(fmt.Sprintf("Compiled env variables: %v",mapResult["env_variables"]))
+
+	fmt.Println(fmt.Sprintf("Compiled env variables: %v", mapResult["env_variables"]))
 
 	out, err := yaml.Marshal(mapResult)
 	// write the whole body at once
-	err = ioutil.WriteFile("app.yaml", out, 0644)
+	err = ioutil.WriteFile(cfg.Path, out, 0644)
 	if err != nil {
 		panic(err)
 	}
