@@ -20,7 +20,7 @@ func main() {
 	fmt.Println("Ready to compile ...")
 
 	cfg := Input{}
-	if err := envconfig.Process("input", cfg); err != nil {
+	if err := envconfig.Process("input", &cfg); err != nil {
 		fmt.Printf("process env var: %s", err)
 		os.Exit(1)
 	}
